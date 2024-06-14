@@ -1,4 +1,16 @@
 {
   "name": "Morsihida_Plantify",
-  "slug": "Morsihida_Plantify"
+  "slug": "Morsihida_Plantify",
+  "expo": {
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./assets/fonts/Urbanist-VariableFont_wght.ttf"
+          ]
+        }
+      ]
+    ]
+  }
 }
