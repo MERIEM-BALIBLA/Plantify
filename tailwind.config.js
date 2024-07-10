@@ -11,6 +11,9 @@ module.exports = {
       height: {
         '0.5': '0.5px',
       },
+      colors: {
+        'default-bg': 'red', // Replace with your default background color
+      },
     },
   },
   plugins: [],

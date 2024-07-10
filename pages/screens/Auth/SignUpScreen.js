@@ -13,10 +13,33 @@ import LoadingPop from "../../components/LoadingPop.js/LoadingPop";
 
 export default function SignUpScreen({ navigation }) {
 
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({})
+
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
+    };
+
+    const validateForm = () => {
+        let errors = {};
+        if (!email) errors.email = "Email is required";
+        if (!password) errors.password = "Password is required";
+        setErrors(errors);
+
+        const isValid = Object.keys(errors).length === 0;
+        return isValid;
+    };
+
+    const handleLogin = () => {
+        if (validateForm()) {
+            console.log("Submitted:", email, password);
+            setErrors({});
+            return true; // Form is valid
+        } else {
+            return false; // Form is invalid
+        }
     };
 
 
@@ -26,7 +49,7 @@ export default function SignUpScreen({ navigation }) {
                 <Text className='font-bold text-3xl	leading-loose	text-neutral-800'>
                     Cultivate the future together!
                 </Text>
-                <Text className='text-lg	font-normal	leading-loose	tracking-wide	text-zinc-600'>
+                <Text className='text-lg font-normal leading-loose tracking-wide text-zinc-600'>
                     Create Your Blooming Account
                 </Text>
             </View>
@@ -34,6 +57,9 @@ export default function SignUpScreen({ navigation }) {
             {/* form start */}
             <View className='flex flex-col gap-3 mt-4'>
                 <View className="flex flex-col gap-2">
+                    {
+                        errors.email ? <Text>{errors.email}</Text> : null
+                    }
                     <Text className='text-lg	font-semibold	leading-loose	tracking-wide	text-neutral-800'>
                         Email
                     </Text>
@@ -51,6 +77,9 @@ export default function SignUpScreen({ navigation }) {
                     </View>
                 </View>
                 <View className="flex flex-col gap-2">
+                    {
+                        errors.password ? <Text>{errors.password}</Text> : null
+                    }
                     <Text className='text-lg	font-semibold	leading-loose	tracking-wide	text-neutral-800'>
                         Password
                     </Text>
@@ -100,8 +129,12 @@ export default function SignUpScreen({ navigation }) {
                 </View>
 
                 <View>
-                    <LoadingPop text="Sign up..."
-                        title="Sign up" />
+                    <LoadingPop
+                        validateForm={handleLogin}
+                        text="Sign in..."
+                        title="Sign in"
+
+                    />
                 </View>
 
 

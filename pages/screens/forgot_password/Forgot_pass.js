@@ -2,7 +2,7 @@ import { View, TextInput, Text, SafeAreaView } from "react-native"
 import { Svg, Path, Mask, G } from 'react-native-svg';
 import GreenBtn from "../../components/buttons/GreenBtn";
 
-export default function Forgot_password() {
+export default function Forgot_password({ navigation }) {
     return (
         <View className='p-6 flex-1 flex-col bg-white justify-between'>
             <View>
@@ -36,7 +36,9 @@ export default function Forgot_password() {
                 </SafeAreaView>
             </View>
             <View>
-                <GreenBtn text="Send OTP code" />
+                {/* <GreenBtn text="Send OTP code" press='Otp_code' navigation={navigation} /> */}
+                <GreenBtn text="Send OTP code" press='Otp_code' navigation={navigation} />
+
             </View>
 
 

@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+// import Validation from "../../../Validation_form/validation"
+
 import { Text, View, TextInput, TouchableOpacity, SafeAreaView } from "react-native"
 import { Modal } from "react-native"
 import { Svg, Path, Mask, G } from 'react-native-svg';
@@ -13,12 +15,34 @@ import LoadingPop from "../../components/LoadingPop.js/LoadingPop";
 
 export default function LoginScreen({ navigation }) {
 
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({})
+
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
+    const validateForm = () => {
+        let errors = {};
+        if (!email) errors.email = "Email is required";
+        if (!password) errors.password = "Password is required";
+        setErrors(errors);
+
+        const isValid = Object.keys(errors).length === 0;
+        return isValid;
+    };
+
+    const handleLogin = () => {
+        if (validateForm()) {
+            console.log("Submitted:", email, password);
+            setErrors({});
+            return true; // Form is valid
+        } else {
+            return false; // Form is invalid
+        }
+    };
 
     return (
         <View className='p-6 flex-1 flex-col bg-white justify-between'>
@@ -30,8 +54,11 @@ export default function LoginScreen({ navigation }) {
                     Let's Continue Your Green Journey
                 </Text>
             </View>
-            <SafeAreaView>
+            <SafeAreaView className="bg-white">
                 <View className="flex flex-col gap-2">
+                    {
+                        errors.email ? <Text>{errors.email}</Text> : null
+                    }
                     <Text className='text-lg	font-semibold	leading-loose	tracking-wide	text-neutral-800'>
                         Email
                     </Text>
@@ -45,10 +72,16 @@ export default function LoginScreen({ navigation }) {
                                 <Path fill-rule="evenodd" clip-rule="evenodd" d="M5.69884 17.1667H13.8822C13.8838 17.1651 13.8905 17.1667 13.8955 17.1667C14.8463 17.1667 15.6897 16.8267 16.3363 16.1809C17.0872 15.4334 17.4997 14.3592 17.4997 13.1567V7.43341C17.4997 5.10591 15.978 3.41675 13.8822 3.41675H5.70051C3.60467 3.41675 2.08301 5.10591 2.08301 7.43341V13.1567C2.08301 14.3592 2.49634 15.4334 3.24634 16.1809C3.89301 16.8267 4.73717 17.1667 5.68717 17.1667H5.69884ZM5.68467 18.4167C4.39884 18.4167 3.25051 17.9501 2.36384 17.0667C1.37634 16.0817 0.833008 14.6934 0.833008 13.1567V7.43341C0.833008 4.43091 2.92551 2.16675 5.70051 2.16675H13.8822C16.6572 2.16675 18.7497 4.43091 18.7497 7.43341V13.1567C18.7497 14.6934 18.2063 16.0817 17.2188 17.0667C16.333 17.9492 15.1838 18.4167 13.8955 18.4167H13.8822H5.70051H5.68467Z" fill="#212121" />
                             </G>
                         </Svg>
-                        <TextInput placeholder="Email" className="w-11/12 font-semibold" />
+                        <TextInput placeholder="Email" className="w-11/12 font-semibold"
+                            value={email}
+                            onChangeText={setEmail}
+                        />
                     </View>
                 </View>
                 <View className="flex flex-col gap-2">
+                    {
+                        errors.password ? <Text>{errors.password}</Text> : null
+                    }
                     <Text className='text-lg	font-semibold	leading-loose	tracking-wide	text-neutral-800'>
                         Password
                     </Text>
@@ -76,10 +109,10 @@ export default function LoginScreen({ navigation }) {
 
             </View>
             <View className='flex flex-row justify-center items-center'>
-                    <TouchableOpacity className="" onPress={() => navigation.navigate('forgot_password')}>
-                        <Text className='font-semibold text-emerald-600'>Forgot password ?</Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity className="" onPress={() => navigation.navigate('forgot_password')}>
+                    <Text className='font-semibold text-emerald-600'>Forgot password ?</Text>
+                </TouchableOpacity>
+            </View>
 
             <View className='flex flex-row items-center justify-center'>
                 <View className='w-40 h-0.5 bg-gray-300 mr-2' />
@@ -98,8 +131,12 @@ export default function LoginScreen({ navigation }) {
             </View>
 
             <View>
-                <LoadingPop text="Log in..."
-                    title="Log in" />
+                <LoadingPop
+                    validateForm={handleLogin}
+                    text="Log in..."
+                    title="Log in"
+               
+                />
             </View>
         </View >
     )

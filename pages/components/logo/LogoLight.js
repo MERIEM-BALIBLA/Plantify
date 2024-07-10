@@ -1,8 +1,10 @@
-import { Image } from "react-native"
+import { Image, View } from "react-native"
 export default function Logo() {
     const img = require('../../../assets/images/Morshida_logo_light.png');
 
     return (
-        <Image source={img} />
+        <View className="">
+
+            <Image source={img} /></View>
     )
 }

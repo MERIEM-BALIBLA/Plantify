@@ -36,7 +36,7 @@ export default function WelcomeScreen({ navigation }) {
 
                 <View className="w-full flex flex-col gap-4">
                     <View>
-                        <SignUp text="Sign up" press='signup' navigation={navigation} />
+                        <SignUp text="Sign up" press='signup' navigation={navigation} height={58} fontsize={16}/>
                     </View>
                     <View>
                         <LogIn text="Log in" press='login' navigation={navigation} />

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { View, Text, TouchableOpacity, Modal, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, Modal, ActivityIndicator, StyleSheet } from "react-native";
 
 import { useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-export default function PopBtnLoad({ text, title }) {
+export default function PopBtnLoad({ validateForm, text, title }) {
 
     const Stack = createNativeStackNavigator();
     const [modalVisible, setModalVisible] = useState(false);
@@ -16,35 +16,47 @@ export default function PopBtnLoad({ text, title }) {
         let timer;
         if (modalVisible) {
             timer = setTimeout(() => {
-                navigation.navigate('welcome');
+                navigation.navigate('HomeTabs');
                 setModalVisible(false);
-            }, 4000);
+            }, 9000);
         }
         return () => clearTimeout(timer);
     }, [modalVisible, navigation]);
 
+    const handlePress = () => {
+        if (validateForm()) {
+            setModalVisible(true);
+        }
+    };
     return (
-        <View>
-           
-            <TouchableOpacity onPress={() => setModalVisible(true)} className="flex  horder-neutral-100 rounded-full h-16 justify-center items-center bg-emerald-600">
-            <Text className="text-base font-bold leading-relaxed tracking-wide align-center text-white">
-                {title}
-            </Text>
-        </TouchableOpacity>
+        <View className="">
+            <TouchableOpacity
+                onPress={handlePress}
+                className="flex  horder-neutral-100 rounded-full h-16 justify-center items-center bg-emerald-600">
+                <Text className="text-base font-bold leading-relaxed tracking-wide align-center text-white">
+                    {title}
+                </Text>
+            </TouchableOpacity>
             <Modal
                 visible={modalVisible}
                 transparent={true}
                 onRequestClose={() => setModalVisible(false)}
             >
-                <View className="flex-1 flex-col px-10 justify-center items-center bg-black bg-opacity-50 modal-box h-52 gap-6 rounded-1">
+                <View style={styles.container} className="flex-1 justify-center items-center px-8">
                     <View className="bg-white w-full rounded-lg py-8 px-10 flex flex-col items-center gap-4">
-                        <Text>
-                            {text}
-                        </Text>
-                        <ActivityIndicator color="#6B46C1" size="large" />
+                        <ActivityIndicator color="rgba(0, 168, 107, 1)" size="large" />
+                        <Text className="text-xl font-semibold text-zinc-500 mb-2">{text}</Text>
                     </View>
                 </View>
             </Modal>
         </View>
     );
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Background color with opacity
+    },
+
+});
